@@ -10,7 +10,6 @@ from sklearn.preprocessing import StandardScaler
 
 
 def main():
-    # 1. Muat dataset
     iris = load_iris()
     X, y = iris.data, iris.target
     print(f"Jumlah data  : {X.shape[0]}")
