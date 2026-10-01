@@ -1,16 +1,3 @@
-"""
-Klasifikasi Bunga Iris dengan Machine Learning (scikit-learn)
-
-Alur:
-1. Muat dataset
-2. Bagi data latih dan data uji
-3. Bandingkan beberapa model dengan cross-validation
-4. Latih model terbaik dan evaluasi
-5. Simpan model dan coba prediksi data baru
-
-Instalasi: pip install scikit-learn joblib
-"""
-
 import joblib
 from sklearn.datasets import load_iris
 from sklearn.ensemble import RandomForestClassifier
@@ -30,12 +17,10 @@ def main():
     print(f"Jumlah fitur : {X.shape[1]} -> {iris.feature_names}")
     print(f"Kelas        : {list(iris.target_names)}\n")
 
-    # 2. Bagi data: 80% latih, 20% uji (stratify menjaga proporsi kelas)
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, random_state=42, stratify=y
     )
 
-    # 3. Bandingkan beberapa model dengan 5-fold cross-validation
     models = {
         "Logistic Regression": make_pipeline(StandardScaler(), LogisticRegression(max_iter=200)),
         "K-Nearest Neighbors": make_pipeline(StandardScaler(), KNeighborsClassifier(n_neighbors=5)),
@@ -52,7 +37,6 @@ def main():
 
     print(f"\nModel terbaik: {best_name}\n")
 
-    # 4. Latih model terbaik pada seluruh data latih, lalu uji
     best_model = models[best_name]
     best_model.fit(X_train, y_train)
     y_pred = best_model.predict(X_test)
@@ -63,7 +47,6 @@ def main():
     print(confusion_matrix(y_test, y_pred), "\n")
     print(classification_report(y_test, y_pred, target_names=iris.target_names))
 
-    # 5. Simpan model, lalu muat kembali untuk prediksi data baru
     joblib.dump(best_model, "model_iris.joblib")
     print("Model disimpan ke model_iris.joblib")
 
